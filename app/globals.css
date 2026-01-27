@@ -25,10 +25,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.font-chinese {
-  font-family: 'Cactus Classical Serif', serif;
+.font-chinese,
+.font-chinese * {
+  font-family: 'Cactus Classical Serif', serif !important;
 }
 
-.font-english {
-  font-family: 'EB Garamond', serif;
+.font-english,
+.font-english * {
+  font-family: 'Inter', sans-serif !important;
 }

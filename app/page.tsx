@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 export default function Home() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const content = {
     zh: {
@@ -55,20 +56,20 @@ export default function Home() {
           { name: "牡丹蝦", en: "Spot Prawns" }
         ],
         others: [
-          "海膽 Sea Urchin",
-          "海參 Sea Cucumber",
-          "魚子醬 Caviar",
-          "珍寶蟹 Dungeness Crab",
-          "雙線鰈魚 Rock Sole",
-          "平頭鰈魚 Flathead Sole",
-          "石斑魚 Rockfish",
-          "太平洋鯡魚 Pacific Herring",
-          "太平洋大比目魚 Pacific Halibut",
-          "無須鱈魚 Hake",
-          "箭齒鰈魚 Arrowtooth Flounder",
-          "太平洋真鱈魚 Pacific Cod",
-          "銀鯧 Butterfish",
-          "粉紅蝦 Pink Shrimp"
+          "海膽",
+          "海參",
+          "魚子醬 ",
+          "珍寶蟹 ",
+          "雙線鰈魚 ",
+          "平頭鰈魚 ",
+          "石斑魚 ",
+          "太平洋鯡魚 ",
+          "太平洋大比目魚 ",
+          "無須鱈魚 ",
+          "箭齒鰈魚 ",
+          "太平洋真鱈魚 ",
+          "銀鯧 ",
+          "粉紅蝦 "
         ]
       },
       services: {
@@ -196,10 +197,10 @@ export default function Home() {
     >
       {/* Header/Navigation */}
       <header className="sticky top-0 z-50 bg-blue-900 text-white">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">{t.companyName}</h1>
-            <div className="flex items-center gap-6">
+            <h1 className="text-xl sm:text-2xl font-bold">{t.companyName}</h1>
+            <div className="flex items-center gap-3 sm:gap-6">
               <nav className="hidden md:flex gap-6">
                 <a href="#about" className="hover:text-blue-200 transition-colors">{t.nav.about}</a>
                 <a href="#products" className="hover:text-blue-200 transition-colors">{t.nav.products}</a>
@@ -208,26 +209,75 @@ export default function Home() {
               </nav>
               <button
                 onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
-                className="bg-blue-800 hover:bg-blue-900 px-4 py-2 rounded-lg transition-colors font-medium"
+                className="bg-blue-800 hover:bg-blue-900 px-3 sm:px-4 py-2 rounded-lg transition-colors font-medium text-sm sm:text-base"
               >
                 {lang === 'zh' ? 'EN' : '中文'}
               </button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 hover:bg-blue-800 rounded-lg transition-colors"
+                aria-label="Toggle menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
             </div>
           </div>
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <nav className="md:hidden mt-4 pb-4 border-t border-blue-800 pt-4">
+              <div className="flex flex-col gap-3">
+                <a
+                  href="#about"
+                  className="hover:text-blue-200 transition-colors py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t.nav.about}
+                </a>
+                <a
+                  href="#products"
+                  className="hover:text-blue-200 transition-colors py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t.nav.products}
+                </a>
+                <a
+                  href="#services"
+                  className="hover:text-blue-200 transition-colors py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t.nav.services}
+                </a>
+                <a
+                  href="#contact"
+                  className="hover:text-blue-200 transition-colors py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t.nav.contact}
+                </a>
+              </div>
+            </nav>
+          )}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-blue-900 via-blue-700 to-blue-500 text-white py-20">
-        <div className="container mx-auto px-6">
+      <section className="relative bg-gradient-to-b from-blue-900 via-blue-600 to-blue-400 text-white py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl">
-            <h2 className="text-5xl font-bold mb-4">{t.hero.title}</h2>
-            <p className="text-lg mb-8 leading-relaxed">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">{t.hero.title}</h2>
+            <p className="text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
               {t.hero.description}
             </p>
             <a
               href="mailto:sales@tuna.com.tw"
-              className="inline-block bg-white text-blue-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+              className="inline-block bg-white text-blue-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors text-sm sm:text-base"
             >
               {t.hero.cta}
             </a>
@@ -236,21 +286,21 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+      <section id="about" className="py-12 sm:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-800">
             {t.about.title}
           </h2>
           <div className="max-w-4xl mx-auto">
-            <div className="bg-blue-50 rounded-lg p-8 mb-8">
-              <h3 className="text-2xl font-semibold mb-4 text-blue-900">{t.companyName}</h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
+            <div className="bg-blue-50 rounded-lg p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-blue-900">{t.companyName}</h3>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
                 {t.about.p1}
               </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
                 {t.about.p2}
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 {t.about.p3}
               </p>
             </div>
@@ -277,21 +327,37 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+      <section id="products" className="py-12 sm:py-16 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-800">
             {t.products.title}
           </h2>
 
           <div className="max-w-6xl mx-auto">
             {/* Main Products */}
-            <div className="mb-12">
-              <h3 className="text-2xl font-semibold mb-6 text-blue-900">{t.products.mainTitle}</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mb-8 sm:mb-12">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-blue-900">{t.products.mainTitle}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {t.products.items.map((product, idx) => (
-                  <div key={idx} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
+                  <div key={idx} className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
                     <div className="mb-3 flex items-center justify-center" style={{ height: '64px' }}>
-                      {idx === 3 ? (
+                      {idx === 0 ? (
+                        <Image
+                          src="/BigeyeTuna.png"
+                          alt="Bigeye Tuna"
+                          width={120}
+                          height={64}
+                          className="object-contain"
+                        />
+                      ) : idx === 1 ? (
+                        <Image
+                          src="/YellowFinTuna.jpg"
+                          alt="Yellow Fin Tuna"
+                          width={120}
+                          height={64}
+                          className="object-contain"
+                        />
+                      ) : idx === 3 ? (
                         <Image
                           src="/SalmonRoe.jpg"
                           alt="Salmon Roe"
@@ -420,33 +486,33 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-gray-800">
+      <section id="contact" className="py-12 sm:py-16 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800">
             {t.contact.title}
           </h2>
-          <a href="mailto:sales@tuna.com.tw" className="text-lg font-bold text-center mb-12 text-blue-600 hover:text-blue-800 transition-colors block">
+          <a href="mailto:sales@tuna.com.tw" className="text-base sm:text-lg font-bold text-center mb-8 sm:mb-12 text-blue-600 hover:text-blue-800 transition-colors block mt-4">
             sales@tuna.com.tw
           </a>
-          <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-            <p className="text-center text-lg mb-8 text-gray-700">
+          <div className="max-w-2xl mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
+            <p className="text-center text-base sm:text-lg mb-6 sm:mb-8 text-gray-700">
               {t.contact.welcome}
             </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="text-center p-6 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-xl mb-3 text-blue-900">{t.contact.taiwan}</h4>
-                {lang === 'zh' && <p className="text-gray-700">Taiwan Headquarters</p>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="text-center p-4 sm:p-6 bg-blue-50 rounded-lg">
+                <h4 className="font-semibold text-lg sm:text-xl mb-2 sm:mb-3 text-blue-900">{t.contact.taiwan}</h4>
+                {lang === 'zh' && <p className="text-sm sm:text-base text-gray-700">Taiwan Headquarters</p>}
               </div>
-              <div className="text-center p-6 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-xl mb-3 text-blue-900">{t.contact.canada}</h4>
-                {lang === 'zh' && <p className="text-gray-700">Vancouver, Canada</p>}
+              <div className="text-center p-4 sm:p-6 bg-blue-50 rounded-lg">
+                <h4 className="font-semibold text-lg sm:text-xl mb-2 sm:mb-3 text-blue-900">{t.contact.canada}</h4>
+                {lang === 'zh' && <p className="text-sm sm:text-base text-gray-700">Vancouver, Canada</p>}
               </div>
             </div>
-            <div className="mt-8 text-center">
-              <p className="text-gray-600 mb-4">{t.contact.regions}</p>
-              <div className="flex flex-wrap justify-center gap-3">
+            <div className="mt-6 sm:mt-8 text-center">
+              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">{t.contact.regions}</p>
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                 {t.contact.countries.map((region, idx) => (
-                  <span key={idx} className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm">
+                  <span key={idx} className="bg-blue-100 text-blue-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm">
                     {region}
                   </span>
                 ))}
