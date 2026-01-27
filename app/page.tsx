@@ -359,11 +359,12 @@ export default function Home() {
                         />
                       ) : idx === 2 ? (
                         <Image
-                          src="/AbacoreTuna.jpg"
+                          src="/AbacoreTuna.png"
                           alt="Albacore Tuna"
                           width={120}
                           height={64}
                           className="object-contain"
+                          style={{ transform: 'scaleX(-1)' }}
                         />
                       ) : idx === 3 ? (
                         <Image
