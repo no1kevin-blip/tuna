@@ -357,6 +357,14 @@ export default function Home() {
                           height={64}
                           className="object-contain"
                         />
+                      ) : idx === 2 ? (
+                        <Image
+                          src="/AbacoreTuna.jpg"
+                          alt="Albacore Tuna"
+                          width={120}
+                          height={64}
+                          className="object-contain"
+                        />
                       ) : idx === 3 ? (
                         <Image
                           src="/SalmonRoe.jpg"
