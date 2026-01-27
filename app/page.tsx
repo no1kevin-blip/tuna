@@ -190,7 +190,10 @@ export default function Home() {
   const t = content[lang];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div
+      className={`min-h-screen bg-gradient-to-b from-blue-50 to-white ${lang === 'zh' ? 'font-chinese' : 'font-english'}`}
+      suppressHydrationWarning
+    >
       {/* Header/Navigation */}
       <header className="sticky top-0 z-50 bg-blue-900 text-white">
         <div className="container mx-auto px-6 py-4">
@@ -295,6 +298,7 @@ export default function Home() {
                           width={120}
                           height={64}
                           className="object-contain"
+                          unoptimized
                         />
                       ) : idx === 4 ? (
                         <Image
@@ -368,20 +372,20 @@ export default function Home() {
 
             {/* Pacific Salmon Varieties */}
             <div className="mt-6 bg-blue-50 p-6 rounded-lg">
-              <h4 className="font-semibold text-lg mb-3 text-blue-900">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-800">
                 {t.products.salmonTitle}
-              </h4>
+              </h3>
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded">
-                  <p className="font-medium">CHUM</p>
+                  <p className="font-bold text-gray-800">CHUM</p>
                   <p className="text-sm text-gray-600">Oncorhynchus keta</p>
                 </div>
                 <div className="bg-white p-4 rounded">
-                  <p className="font-medium">PINK</p>
+                  <p className="font-bold text-gray-800">PINK</p>
                   <p className="text-sm text-gray-600">Oncorhynchus gorbuscha</p>
                 </div>
                 <div className="bg-white p-4 rounded">
-                  <p className="font-medium">SOCKEYE</p>
+                  <p className="font-bold text-gray-800">SOCKEYE</p>
                   <p className="text-sm text-gray-600">Oncorhynchus nerka</p>
                 </div>
               </div>
