@@ -61,14 +61,13 @@ export default function Home() {
           "魚子醬 ",
           "珍寶蟹 ",
           "雙線鰈魚 ",
-          "平頭鰈魚 ",
+          "副眉鰈 ",
           "石斑魚 ",
           "太平洋鯡魚 ",
           "太平洋大比目魚 ",
           "無須鱈魚 ",
           "箭齒鰈魚 ",
           "太平洋真鱈魚 ",
-          "銀鯧 ",
           "粉紅蝦 "
         ]
       },
@@ -150,14 +149,13 @@ export default function Home() {
           "Caviar",
           "Dungeness Crab",
           "Rock Sole",
-          "Flathead Sole",
+          "English Sole",
           "Rockfish",
           "Pacific Herring",
           "Pacific Halibut",
           "Hake",
           "Arrowtooth Flounder",
           "Pacific Cod",
-          "Butterfish",
           "Pink Shrimp"
         ]
       },
