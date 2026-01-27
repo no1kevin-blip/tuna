@@ -25,12 +25,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.font-chinese,
-.font-chinese * {
-  font-family: 'Cactus Classical Serif', serif !important;
-}
-
-.font-english,
-.font-english * {
+body,
+body * {
   font-family: 'Inter', sans-serif !important;
 }
