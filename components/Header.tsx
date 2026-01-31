@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface HeaderProps {
   lang: 'zh' | 'en';
@@ -43,6 +44,20 @@ export default function Header({ lang, setLang, companyName, nav }: HeaderProps)
         <div className="flex items-center justify-between">
           {/* Logo with decorative element */}
           <div className="flex items-center gap-3">
+            <div className={`relative transition-all duration-500 ${
+              scrolled ? 'w-8 h-8 sm:w-10 sm:h-10' : 'w-10 h-10 sm:w-12 sm:h-12'
+            }`}>
+              <Image
+                src="/logo.png"
+                alt="BigEye International Logo"
+                fill
+                className="object-contain transition-all duration-700"
+                style={{
+                  filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+                }}
+                priority
+              />
+            </div>
             <h1 className={`font-serif font-bold tracking-wider transition-all duration-500 ${
               scrolled ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'
             }`}>
@@ -93,7 +108,7 @@ export default function Header({ lang, setLang, companyName, nav }: HeaderProps)
               }`}
             >
               <span className="relative z-10">{lang === 'zh' ? 'EN' : '中文'}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-sky-400/0 via-sky-400/20 to-sky-400/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-sky-400/0 via-sky-400/20 to-sky-400/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             </button>
 
             {/* Mobile Menu Button */}
