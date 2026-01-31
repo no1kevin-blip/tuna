@@ -2,10 +2,19 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+const OceanScene = dynamic(() => import('@/components/OceanScene'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 bg-linear-to-b from-[#79bfff] via-[#4a9fd8] to-[#00124c]" />
+  ),
+});
 
 export default function Home() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const content = {
     zh: {
@@ -190,155 +199,182 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-b from-blue-50 to-white"
+      className="min-h-screen"
       suppressHydrationWarning
     >
-      {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl sm:text-2xl font-bold">{t.companyName}</h1>
-            <div className="flex items-center gap-3 sm:gap-6">
-              <nav className="hidden md:flex gap-6">
-                <a href="#about" className="hover:text-blue-200 transition-colors">{t.nav.about}</a>
-                <a href="#products" className="hover:text-blue-200 transition-colors">{t.nav.products}</a>
-                <a href="#services" className="hover:text-blue-200 transition-colors">{t.nav.services}</a>
-                <a href="#contact" className="hover:text-blue-200 transition-colors">{t.nav.contact}</a>
-              </nav>
-              <button
-                onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
-                className="bg-blue-800 hover:bg-blue-900 px-3 sm:px-4 py-2 rounded-lg transition-colors font-medium text-sm sm:text-base"
+      {/* Header - Fixed at top, transparent over hero */}
+      <Header lang={lang} setLang={setLang} companyName={t.companyName} nav={t.nav} />
+
+      {/* Hero Section with Ocean Scene Background */}
+      <section className="relative text-white overflow-hidden h-screen" suppressHydrationWarning>
+        {/* Ocean Scene Background */}
+        <div className="absolute inset-0 z-0" style={{ willChange: 'transform' }}>
+          <OceanScene />
+        </div>
+
+        <div className="absolute bottom-0 left-0 z-10 w-full pb-12 sm:pb-16 lg:pb-20">
+          <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+            <div className="max-w-2xl">
+
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold mb-6 drop-shadow-2xl leading-tight">
+                {t.hero.title}
+              </h2>
+
+              <p className="text-lg sm:text-xl mb-8 leading-relaxed drop-shadow-lg font-light max-w-xl">
+                {t.hero.description}
+              </p>
+
+              <a
+                href="mailto:sales@tuna.com.tw"
+                className="group relative inline-flex items-center gap-3 bg-white text-blue-950 px-10 py-4 font-semibold overflow-hidden transition-all duration-500 text-base sm:text-lg border-l-4 border-blue-900 shadow-xl hover:shadow-2xl hover:scale-105"
               >
-                {lang === 'zh' ? 'EN' : '中文'}
-              </button>
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 hover:bg-blue-800 rounded-lg transition-colors"
-                aria-label="Toggle menu"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {mobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
+                {/* Animated background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                {/* Content */}
+                <span className="relative z-10 tracking-wide">{t.hero.cta}</span>
+                <svg
+                  className="relative z-10 w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
-              </button>
+
+                {/* Decorative line that expands on hover */}
+                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-900 group-hover:w-full transition-all duration-500"></div>
+              </a>
             </div>
           </div>
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 border-t border-blue-800 pt-4">
-              <div className="flex flex-col gap-3">
-                <a
-                  href="#about"
-                  className="hover:text-blue-200 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t.nav.about}
-                </a>
-                <a
-                  href="#products"
-                  className="hover:text-blue-200 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t.nav.products}
-                </a>
-                <a
-                  href="#services"
-                  className="hover:text-blue-200 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t.nav.services}
-                </a>
-                <a
-                  href="#contact"
-                  className="hover:text-blue-200 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t.nav.contact}
-                </a>
-              </div>
-            </nav>
-          )}
         </div>
-      </header>
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-blue-900 via-blue-600 to-blue-400 text-white py-12 sm:py-16 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">{t.hero.title}</h2>
-            <p className="text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
-              {t.hero.description}
-            </p>
-            <a
-              href="mailto:sales@tuna.com.tw"
-              className="inline-block bg-white text-blue-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors text-sm sm:text-base"
-            >
-              {t.hero.cta}
-            </a>
-          </div>
-        </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-12 sm:py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-800">
-            {t.about.title}
-          </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-blue-50 rounded-lg p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-blue-900">{t.companyName}</h3>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
-                {t.about.p1}
-              </p>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
+
+      {/* About Section - Maritime Luxury */}
+      <section id="about" className="py-20 sm:py-32 relative overflow-hidden">
+        {/* Decorative wave pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="wave" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                <path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="#1e40af" strokeWidth="0.5" fill="none"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#wave)"/>
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-6 sm:px-12 max-w-7xl relative z-10">
+          {/* Diagonal composition */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left: Company story */}
+            <div className="relative">
+              <div className="border-l-4 border-blue-900 pl-8 mb-8">
+                <h2 className="text-4xl lg:text-5xl font-serif font-bold text-blue-950 mb-4 leading-tight">
+                  {t.companyName}
+                </h2>
+                <div className="h-px w-16 bg-blue-900 mb-6"></div>
+                <p className="text-base lg:text-lg text-slate-700 leading-relaxed mb-6 font-light">
+                  {t.about.p1}
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Value pillars in cards */}
+            <div className="grid grid-cols-1 gap-6">
+              {/* Excellence card */}
+              <div className="group relative bg-white border-2 border-slate-200 hover:border-blue-900 transition-all duration-500 p-6 hover:shadow-2xl hover:-translate-y-1">
+                <div className="absolute top-0 left-0 w-1 h-full bg-blue-900 transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></div>
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl shrink-0 transform group-hover:scale-110 transition-transform duration-300">🎯</div>
+                  <div>
+                    <h3 className="text-xl font-serif font-bold text-blue-950 mb-2">{t.about.values.title}</h3>
+                    <p className="text-sm text-slate-600 font-light">{t.about.values.content}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Global card */}
+              <div className="group relative bg-white border-2 border-slate-200 hover:border-blue-900 transition-all duration-500 p-6 hover:shadow-2xl hover:-translate-y-1" style={{ animationDelay: '100ms' }}>
+                <div className="absolute top-0 left-0 w-1 h-full bg-blue-900 transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></div>
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl shrink-0 transform group-hover:scale-110 transition-transform duration-300">🌏</div>
+                  <div>
+                    <h3 className="text-xl font-serif font-bold text-blue-950 mb-2">{t.about.global.title}</h3>
+                    <p className="text-sm text-slate-600 font-light">{t.about.global.content}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fleet card */}
+              <div className="group relative bg-white border-2 border-slate-200 hover:border-blue-900 transition-all duration-500 p-6 hover:shadow-2xl hover:-translate-y-1" style={{ animationDelay: '200ms' }}>
+                <div className="absolute top-0 left-0 w-1 h-full bg-blue-900 transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></div>
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl shrink-0 transform group-hover:scale-110 transition-transform duration-300">🚢</div>
+                  <div>
+                    <h3 className="text-xl font-serif font-bold text-blue-950 mb-2">{t.about.fleet.title}</h3>
+                    <p className="text-sm text-slate-600 font-light">{t.about.fleet.content}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom: Extended info */}
+          <div className="mt-16 grid md:grid-cols-2 gap-8 pt-12 border-t border-slate-300">
+            <div>
+              <p className="text-base text-slate-700 leading-relaxed font-light">
                 {t.about.p2}
               </p>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+            </div>
+            <div>
+              <p className="text-base text-slate-700 leading-relaxed font-light">
                 {t.about.p3}
               </p>
             </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-white rounded-lg shadow-md">
-                <div className="text-4xl mb-3">🎯</div>
-                <h4 className="font-semibold text-xl mb-2 text-gray-800">{t.about.values.title}</h4>
-                <p className="text-gray-600">{t.about.values.content}</p>
-              </div>
-              <div className="text-center p-6 bg-white rounded-lg shadow-md">
-                <div className="text-4xl mb-3">🌏</div>
-                <h4 className="font-semibold text-xl mb-2 text-gray-800">{t.about.global.title}</h4>
-                <p className="text-gray-600">{t.about.global.content}</p>
-              </div>
-              <div className="text-center p-6 bg-white rounded-lg shadow-md">
-                <div className="text-4xl mb-3">🚢</div>
-                <h4 className="font-semibold text-xl mb-2 text-gray-800">{t.about.fleet.title}</h4>
-                <p className="text-gray-600">{t.about.fleet.content}</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
-
       {/* Products Section */}
-      <section id="products" className="py-12 sm:py-16 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-800">
-            {t.products.title}
-          </h2>
+      <section id="products" className="py-20 sm:py-32 bg-white w-full relative overflow-hidden">
+        {/* Subtle wave pattern background */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="wave-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                <path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="#00124c" strokeWidth="0.5" fill="none"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#wave-pattern)"/>
+          </svg>
+        </div>
 
-          <div className="max-w-6xl mx-auto">
-            {/* Main Products */}
-            <div className="mb-8 sm:mb-12">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-blue-900">{t.products.mainTitle}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="relative z-10 px-6 sm:px-8 lg:px-16 max-w-[1600px] mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-blue-950 mb-4">
+              {t.products.title}
+            </h2>
+            <p className="text-slate-600 font-light text-lg max-w-2xl mx-auto">
+              Premium Selection from Ocean to Table
+            </p>
+          </div>
+
+          {/* Main Products */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-1 h-12 bg-blue-950"></div>
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-blue-950">{t.products.mainTitle}</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {t.products.items.map((product, idx) => (
-                  <div key={idx} className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
-                    <div className="mb-3 flex items-center justify-center" style={{ height: '64px' }}>
+                  <div key={idx} className="group relative bg-slate-50 border-2 border-slate-200 hover:border-sky-400 transition-all duration-500 overflow-hidden hover:shadow-2xl">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-sky-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    <div className="p-6">
+                      <div className="mb-6 flex items-center justify-center h-24 bg-white/50 rounded">
                       {idx === 0 ? (
                         <Image
                           src="/BigeyeTuna.png"
@@ -418,108 +454,177 @@ export default function Home() {
                           🐟
                         </div>
                       )}
+                      </div>
+                      <h4 className="font-serif font-bold text-xl text-blue-950 mb-2 group-hover:text-sky-600 transition-colors duration-300">{product.name}</h4>
+                      {product.en && <p className="text-slate-600 text-sm font-light uppercase tracking-wider">{product.en}</p>}
                     </div>
-                    <h4 className="font-semibold text-lg text-gray-800">{product.name}</h4>
-                    {product.en && <p className="text-gray-600 text-sm">{product.en}</p>}
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Additional Products */}
-            <div className="bg-white p-8 rounded-lg shadow-md">
-              <h3 className="text-2xl font-semibold mb-6 text-blue-900">{t.products.otherTitle}</h3>
-              <div className="grid md:grid-cols-2 gap-4 text-gray-700">
-                <ul className="space-y-2">
-                  {t.products.others.slice(0, 7).map((item, idx) => (
-                    <li key={idx}>• {item}</li>
-                  ))}
-                </ul>
-                <ul className="space-y-2">
-                  {t.products.others.slice(7).map((item, idx) => (
-                    <li key={idx}>• {item}</li>
-                  ))}
-                </ul>
+            <div className="bg-slate-50 border-l-4 border-blue-950 p-10">
+              <div className="flex items-center gap-4 mb-8">
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-blue-950">{t.products.otherTitle}</h3>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-4 text-slate-700">
+                {t.products.others.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 group">
+                    <div className="w-2 h-2 bg-sky-400 mt-2 shrink-0 transform group-hover:scale-150 transition-transform duration-300"></div>
+                    <p className="font-light">{item}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Pacific Salmon Varieties */}
-            <div className="mt-6 bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-2xl font-semibold mb-6 text-gray-800">
+            <div className="mt-12 bg-blue-50/50 border-2 border-blue-100 p-12">
+              <h3 className="text-3xl font-serif font-bold mb-2 text-center text-blue-950">
                 {t.products.salmonTitle}
               </h3>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-white p-4 rounded">
-                  <p className="font-bold text-gray-800">CHUM</p>
-                  <p className="text-sm text-gray-600">Oncorhynchus keta</p>
+              <div className="w-20 h-1 bg-sky-400 mx-auto mb-10"></div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="group bg-white border-2 border-slate-200 p-6 hover:border-sky-400 hover:shadow-lg transition-all duration-500">
+                  <p className="font-bold text-2xl mb-2 text-blue-950 tracking-widest">CHUM</p>
+                  <p className="text-sm text-slate-600 font-light italic">Oncorhynchus keta</p>
                 </div>
-                <div className="bg-white p-4 rounded">
-                  <p className="font-bold text-gray-800">PINK</p>
-                  <p className="text-sm text-gray-600">Oncorhynchus gorbuscha</p>
+                <div className="group bg-white border-2 border-slate-200 p-6 hover:border-sky-400 hover:shadow-lg transition-all duration-500">
+                  <p className="font-bold text-2xl mb-2 text-blue-950 tracking-widest">PINK</p>
+                  <p className="text-sm text-slate-600 font-light italic">Oncorhynchus gorbuscha</p>
                 </div>
-                <div className="bg-white p-4 rounded">
-                  <p className="font-bold text-gray-800">SOCKEYE</p>
-                  <p className="text-sm text-gray-600">Oncorhynchus nerka</p>
+                <div className="group bg-white border-2 border-slate-200 p-6 hover:border-sky-400 hover:shadow-lg transition-all duration-500">
+                  <p className="font-bold text-2xl mb-2 text-blue-950 tracking-widest">SOCKEYE</p>
+                  <p className="text-sm text-slate-600 font-light italic">Oncorhynchus nerka</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            {t.services.title}
-          </h2>
-          <div className="max-w-4xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section id="services" className="py-20 sm:py-32">
+        <div className="px-6 sm:px-8 lg:px-16 max-w-[1600px] mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-blue-950 mb-4">
+              {t.services.title}
+            </h2>
+          </div>
+
+          {/* Service Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {t.services.items.map((service, idx) => (
-              <div key={idx} className="bg-blue-50 p-6 rounded-lg text-center hover:bg-blue-100 transition-colors">
-                <div className="text-4xl mb-3">
+              <div key={idx} className="group relative bg-white border-2 border-slate-200 hover:border-sky-400 p-8 transition-all duration-500 hover:shadow-2xl">
+                <div className="absolute top-0 left-0 w-full h-1 bg-sky-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                <div className="text-5xl mb-6 transition-transform duration-300 group-hover:scale-110">
                   {idx === 0 ? '🎣' : idx === 1 ? '🌾' : idx === 2 ? '🇪🇺' : '🇯🇵'}
                 </div>
-                <h4 className="font-semibold text-lg mb-2 text-gray-800">{service.title}</h4>
-                <p className="text-gray-600 text-sm">{service.desc}</p>
+                <h4 className="font-serif font-bold text-xl mb-3 text-blue-950 group-hover:text-sky-600 transition-colors duration-300">{service.title}</h4>
+                <p className="text-slate-600 text-sm font-light leading-relaxed">{service.desc}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 max-w-3xl mx-auto bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-lg text-center">
-            <h3 className="text-2xl font-semibold mb-4">{t.services.vision.title}</h3>
-            <p className="text-lg">{t.services.vision.subtitle}</p>
+          {/* Vision Statement */}
+          <div className="bg-blue-950 border-l-4 border-sky-400 p-12 sm:p-16 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-400/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div className="relative z-10 max-w-4xl mx-auto text-center">
+              <h3 className="text-3xl sm:text-4xl font-serif font-bold mb-6 text-white">{t.services.vision.title}</h3>
+              <div className="w-20 h-1 bg-sky-400 mx-auto mb-6"></div>
+              <p className="text-lg sm:text-xl text-slate-200 font-light leading-relaxed">{t.services.vision.subtitle}</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-12 sm:py-16 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800">
-            {t.contact.title}
-          </h2>
-          <a href="mailto:sales@tuna.com.tw" className="text-base sm:text-lg font-bold text-center mb-8 sm:mb-12 text-blue-600 hover:text-blue-800 transition-colors block mt-4">
-            sales@tuna.com.tw
-          </a>
-          <div className="max-w-2xl mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
-            <p className="text-center text-base sm:text-lg mb-6 sm:mb-8 text-gray-700">
+      <section id="contact" className="py-20 sm:py-32 bg-white relative overflow-hidden">
+        {/* Wave Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="contact-waves" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                <path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="#00124c" fill="none" strokeWidth="1"/>
+                <path d="M0 60 Q 25 35, 50 60 T 100 60" stroke="#00124c" fill="none" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#contact-waves)"/>
+          </svg>
+        </div>
+
+        <div className="px-6 sm:px-8 lg:px-16 max-w-[1600px] mx-auto relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block">
+              <h2 className="text-4xl sm:text-5xl font-serif font-bold text-blue-950 mb-6">
+                {t.contact.title}
+              </h2>
+            </div>
+            <p className="text-lg sm:text-xl text-slate-600 font-light max-w-3xl mx-auto leading-relaxed mb-8">
               {t.contact.welcome}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div className="text-center p-4 sm:p-6 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-lg sm:text-xl mb-2 sm:mb-3 text-blue-900">{t.contact.taiwan}</h4>
-                {lang === 'zh' && <p className="text-sm sm:text-base text-gray-700">Taiwan Headquarters</p>}
-              </div>
-              <div className="text-center p-4 sm:p-6 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-lg sm:text-xl mb-2 sm:mb-3 text-blue-900">{t.contact.canada}</h4>
-                {lang === 'zh' && <p className="text-sm sm:text-base text-gray-700">Vancouver, Canada</p>}
+
+            {/* Premium Email Link */}
+            <a
+              href="mailto:sales@tuna.com.tw"
+              className="group inline-flex items-center gap-3 bg-blue-950 text-white px-8 py-4 font-semibold transition-all duration-500 hover:bg-sky-500 hover:shadow-2xl border-l-4 border-sky-400"
+            >
+              <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span className="tracking-wide">sales@tuna.com.tw</span>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Location Cards */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="group relative bg-white border-2 border-slate-200 hover:border-sky-400 p-10 transition-all duration-500 hover:shadow-2xl">
+              <div className="absolute top-0 left-0 w-1 h-0 bg-sky-400 group-hover:h-full transition-all duration-500"></div>
+              <div className="flex items-start gap-4 mb-4">
+                <div className="text-4xl">🇹🇼</div>
+                <div className="flex-1">
+                  <h4 className="font-serif font-bold text-2xl mb-2 text-blue-950 group-hover:text-sky-600 transition-colors duration-300">
+                    {t.contact.taiwan}
+                  </h4>
+                  {lang === 'zh' && (
+                    <p className="text-slate-500 font-light text-sm uppercase tracking-wider">Taiwan Headquarters</p>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="mt-6 sm:mt-8 text-center">
-              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">{t.contact.regions}</p>
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+
+            <div className="group relative bg-white border-2 border-slate-200 hover:border-sky-400 p-10 transition-all duration-500 hover:shadow-2xl">
+              <div className="absolute top-0 left-0 w-1 h-0 bg-sky-400 group-hover:h-full transition-all duration-500"></div>
+              <div className="flex items-start gap-4 mb-4">
+                <div className="text-4xl">🇨🇦</div>
+                <div className="flex-1">
+                  <h4 className="font-serif font-bold text-2xl mb-2 text-blue-950 group-hover:text-sky-600 transition-colors duration-300">
+                    {t.contact.canada}
+                  </h4>
+                  {lang === 'zh' && (
+                    <p className="text-slate-500 font-light text-sm uppercase tracking-wider">Vancouver, Canada</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Service Regions */}
+          <div className="bg-slate-50 border-2 border-slate-100 p-10 sm:p-12">
+            <div className="max-w-5xl mx-auto text-center">
+              <h3 className="font-serif font-bold text-2xl mb-3 text-blue-950">{t.contact.regions}</h3>
+              <div className="w-16 h-1 bg-sky-400 mx-auto mb-8"></div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 justify-items-center">
                 {t.contact.countries.map((region, idx) => (
-                  <span key={idx} className="bg-blue-100 text-blue-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm">
+                  <span
+                    key={idx}
+                    className="group w-full flex items-center justify-center bg-white border-2 border-slate-200 hover:border-sky-400 text-blue-950 px-5 py-3.5 text-sm font-medium uppercase tracking-wider transition-all duration-300 hover:shadow-lg"
+                  >
+                    <span className="w-0 h-px bg-sky-400 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
                     {region}
                   </span>
                 ))}
@@ -530,13 +635,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-900 text-white py-8">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-lg font-semibold mb-2">{t.companyName}</p>
-          <p className="text-blue-200 text-sm mb-4">{t.footer.tagline}</p>
-          <p className="text-blue-300 text-sm">© {new Date().getFullYear()} BigEye International. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer companyName={t.companyName} tagline={t.footer.tagline} />
     </div>
   );
 }
