@@ -59,8 +59,8 @@ export default function Home() {
           { name: "長鰭鮪魚", en: "Albacore Tuna" },
           { name: "鮭魚卵", en: "Salmon Roe" },
           { name: "太平洋鮭魚", en: "Pacific Salmon" },
-          { name: "沙丁魚", en: "Sardine" },
-          { name: "鯡魚", en: "Herring" },
+          { name: "沙丁魚, 沙丁魚餌 ", en: "Sardine, Sardine for Bait" },
+          { name: "鯡魚, 鯡魚魚餌 ", en: "Herring, Herring for Bait" },
           { name: "黑鱈/銀鱈", en: "Black Cod" },
           { name: "牡丹蝦", en: "Spot Prawns" }
         ],
