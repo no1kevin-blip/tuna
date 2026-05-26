@@ -147,8 +147,8 @@ export default function Home() {
           { name: "Albacore Tuna", en: "" },
           { name: "Salmon Roe", en: "" },
           { name: "Pacific Salmon", en: "" },
-          { name: "Sardine", en: "" },
-          { name: "Herring", en: "" },
+          { name: "Sardine, Sardine for Bait", en: "" },
+          { name: "Herring, Herring for Bait", en: "" },
           { name: "Black Cod", en: "" },
           { name: "Spot Prawns", en: "" }
         ],
